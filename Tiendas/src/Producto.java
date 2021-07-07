@@ -3,6 +3,11 @@ public class Producto {
     private String nombre = "";
     private float precio = 0;
 
+    // constructor
+    public Producto() {
+
+    }
+
     public void mostrar() {
         System.out.println(nombre + ": " + precio);
     }

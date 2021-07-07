@@ -9,7 +9,8 @@ public class Producto {
     }
 
     public void mostrar() {
-        System.out.println(nombre + ": " + precio);
+        String precioTexto = String.format("%,d", (int) precio);
+        System.out.println(nombre + ": " + precioTexto);
     }
 
     public void setNombre(String nombre) {

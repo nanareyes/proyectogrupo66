@@ -4,27 +4,34 @@ public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Bienvenido al cine XX");
 
+        // Cliente Uno
         Scanner sca = new Scanner(System.in);
         System.out.println("Ingreses su cédula: ");
         String cedula = sca.nextLine();
         System.out.println("Ingrese su nombre: ");
         String nombre = sca.nextLine();
+        sca.close();
 
         Cliente clienteUno = new Cliente();
-        clienteUno.setCedula("1120548");
-        clienteUno.setNombre("Carolina");
+        clienteUno.setCedula(cedula);
+        clienteUno.setNombre(nombre);
         clienteUno.setId(1);
+        clienteUno.generarSaludo();
+        clienteUno.generarSaludo("Buenos días");
+        clienteUno.mostrarDatos();
         float costo = clienteUno.cacularCosto(8000);
 
         System.out.println("Cédula: " + clienteUno.getCedula() + "\nNombre: " + clienteUno.getNombre() + "\nID: "
                 + clienteUno.getId() + "\nCosto Tiquete: " + costo);
 
+        // Cliente Dos
         System.out.println("\n");
         System.out.println("Bienvenido al cine XX");
         ClientePremium clienteDos = new ClientePremium();
         clienteDos.setCedula("123456");
         clienteDos.setNombre("Ana");
         clienteDos.setNumeroTarjeta(12345);
+        clienteDos.mostrarDatos();
         float costoDos = clienteDos.cacularCosto(8000);
 
         System.out.println("Cédula: " + clienteDos.getCedula() + "\nNombre: " + clienteDos.getNombre()

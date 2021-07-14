@@ -10,7 +10,6 @@ public class App {
         String cedula = sca.nextLine();
         System.out.println("Ingrese su nombre: ");
         String nombre = sca.nextLine();
-        sca.close();
 
         Cliente clienteUno = new Cliente();
         clienteUno.setCedula(cedula);
@@ -37,6 +36,11 @@ public class App {
         System.out.println("Cédula: " + clienteDos.getCedula() + "\nNombre: " + clienteDos.getNombre()
                 + "\nNumero Tarjeta: " + clienteDos.getNumeroTarjeta() + "\nCosto Tiquete: " + costoDos);
         ;
+        // prueba de contenedores
+        System.out.println();
+        Prueba pruebaContenedor = new Prueba();
+        pruebaContenedor.generarLista();
 
     }
+
 }

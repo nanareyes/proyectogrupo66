@@ -42,7 +42,7 @@ public class App {
         pruebaContenedor.generarLista();
 
         // Lista de objetos
-        System.out.println("Creación de clientes");
+        System.out.println("---Creación de clientes---");
         String opcion = "S";
         while (opcion.equalsIgnoreCase("S")) { // Ignora mayúsculas
             // ingresa datos por teclado
@@ -55,10 +55,11 @@ public class App {
             int id = sca.nextInt(); // se crea la variable id
 
             // Crea objeto cliente
-            Cliente nuevoCliente = new Cliente();
-            nuevoCliente.setCedula(cedula);
-            nuevoCliente.setNombre(nombre);
-            nuevoCliente.setId(id);
+            /*
+             * Cliente nuevoCliente = new Cliente(); nuevoCliente.setCedula(cedula);
+             * nuevoCliente.setNombre(nombre); nuevoCliente.setId(id);
+             */ // se reemplaza por el cosntructor sobrecargado
+            Cliente nuevoCliente = new Cliente(cedula, nombre, id);
 
             // agregar objeto cliente a la lista con todos los datos
             pruebaContenedor.agregarCliente(nuevoCliente);
@@ -67,6 +68,7 @@ public class App {
             System.out.println("Desea agregar otro cliente? (s / n):");
             opcion = sca.next();
             sca.nextLine();
+
         }
 
         pruebaContenedor.mostrarNombreClientes();

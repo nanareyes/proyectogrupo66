@@ -130,21 +130,33 @@ SELECT idCliente, c.nombres || ' ' || c.apellidos AS "Nombre cliente", COUNT(*) 
 FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion
 WHERE idCliente = "49898654";
 
-/*GROUP BY*/
+SELECT idCliente, c.nombres, c.apellidos, COUNT(*) AS "Cantidad ventas", SUM(total) AS "Dinero gastado" FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion 
+WHERE idCliente = "49898654";
+
+/*GROUP BY cuando voy a  agrupar registros repetidosx*/
+SELECT * FROM Productos GROUP BY nombre;
 SELECT nombre, count(nombre) AS cantidad FROM Productos GROUP BY nombre;
 select count(*) from Productos;
+
 
 /*Group by conteo*/
 SELECT talla, count(talla) AS cantidad FROM Productos GROUP BY talla;
 SELECT color, count(color) AS cantidad FROM Productos GROUP BY color;
 
 /*Group by promedio*/
+SELECT AVG(precio) AS "precio promedio" FROM Productos;
 SELECT nombre, AVG(precio) AS cantidad FROM Productos GROUP BY nombre;
-SELECT nombre, AVG(precio) AS cantidad FROM Productos GROUP BY nombre
+SELECT color, AVG(precio) AS cantidad FROM Productos GROUP BY color;
+SELECT nombre, AVG(precio) FROM Productos GROUP BY nombre HAVING AVG(precio) < 60000; 
+/* Having es la condicion para agrupar sin where -> son consultas esp xa agrupación*/ 
 
 /**CAMISETA DE COLOR BLANCO -> PRODUCTOS CON PRECIO MAYOR**/
 /*Subconsulta*/
 SELECT precio FROM Productos  WHERE nombre = 'Camiseta' AND color = 'Blanco';
+
+
+/* Camiseta de color blanco -> productos de mayor precio
+
 
 /*Consulta y Sunconsulta*/
 SELECT nombre, precio
@@ -153,3 +165,9 @@ WHERE precio > (
 				SELECT precio FROM Productos
 				WHERE nombre = 'Camiseta' AND color = 'Blanco'
 );
+
+SELECT nombre, precio FROM Productos WHERE precio =
+(SELECT precio FROM Productos WHERE nombre  = 'Camiseta' AND color = 'Blanco');
+
+
+/* Los join son consultas entre tablas -> intersepciones entre las llaves primarias y foraneas*/

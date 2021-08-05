@@ -210,6 +210,14 @@ JOIN VentasProductos vp ON v.codigoVenta = vp.idVenta
 JOIN Productos p ON vp.idProducto = p.codigoBarras
 WHERE c.nombres = "Abel" AND c.apellidos = "Wolfe";
 
+/* join incluyendo nombre de las marcas =) */
+SELECT c.nombres || " " || c.apellidos AS "Cliente", p.precio, p.nombre, m.nombre 
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+JOIN VentasProductos vp ON v.codigoVenta = vp.idVenta 
+JOIN Productos p ON vp.idProducto = p.codigoBarras 
+JOIN Marcas m ON p.idMarca = m.codigoMarca 
+WHERE c.nombres = "Abel" and c.apellidos = "Wolfe";
+
 /*JOIN PARA MOSTRAR EL PRODUCTO MÁS BARATO COMPRADO POR EL CLIENTE*/
 SELECT c.nombres || " " || c.apellidos AS "Cliente", p.nombre, MIN(p.precio) AS "Precio menor"
 FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente
@@ -217,11 +225,23 @@ JOIN VentasProductos vp ON v.codigoVenta = vp.idVenta
 JOIN Productos p ON vp.idProducto = p.codigoBarras
 WHERE c.nombres = "Abel" AND c.apellidos = "Wolfe";
 
-/*LEFT JOIN*/
+/*LEFT JOIN   */
 SELECT c.nombres || " " || c.apellidos AS "Nombre cliente", c.identificacion, v.codigoVenta
 FROM Clientes c LEFT JOIN Ventas v ON v.idCliente = c.identificacion;
 
-/*LEFT JOIN PARA CLIENTES QUE NUNCA HAN COMPRADO*/
+/*LEFT JOIN PARA CLIENTES QUE NUNCA HAN COMPRADO ---> Para ver unos campos específicos, para el ejemplo son los campos nulos*/
 SELECT c.nombres || " " || c.apellidos AS "Nombre cliente", c.identificacion
 FROM Clientes c LEFT JOIN Ventas v ON v.idCliente = c.identificacion
 WHERE v.codigoVenta  IS NULL;
+
+/* Transacciones
+	COMMIT  --> SALVARLO
+	DELETE
+	SAVEPOINT A
+	INSERT
+	UPDATE
+	SAVEPOINT B
+	INSERT
+	ROLLBACK --> DEVOLVERSE
+	*/
+

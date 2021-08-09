@@ -1,0 +1,247 @@
+/*
+    EJEMPLOS DE SENTENCIAS SQL
+*/
+
+/*Creación de tablas*/
+CREATE TABLE Clientes (
+    identificacion varchar(15) PRIMARY KEY,
+    nombres varchar(20),
+    apellidos varchar(20)
+);
+
+CREATE TABLE Marcas (
+	codigoMarca INTEGER,
+	nombre TEXT(10),
+	CONSTRAINT Marcas_PK PRIMARY KEY (codigoMarca)
+);
+
+CREATE TABLE Ventas (
+	codigoVenta TEXT(5),
+	total REAL,
+	idCliente TEXT(15),
+	CONSTRAINT Ventas_PK PRIMARY KEY (codigoVenta),
+	CONSTRAINT Ventas_FK FOREIGN KEY (idCliente) REFERENCES Clientes(identificacion)
+);
+
+/*Crear tabla con llave foranea*/
+CREATE TABLE Productos (
+	codigoBarras INTEGER,
+	nombre TEXT(10),
+	precio REAL,
+	talla TEXT(4),
+	color TEXT(10),
+	idMarca INTEGER,
+	CONSTRAINT Productos_PK PRIMARY KEY (codigoBarras),
+	CONSTRAINT MarcaProducto_FK FOREIGN KEY (idMarca) REFERENCES Marcas(codigoMarca)
+);
+
+CREATE TABLE VentasProductos (
+	idVentasProductos INTEGER,
+	cantidad INTEGER,
+	idProducto INTEGER,
+	idVenta TEXT(5),
+	CONSTRAINT VentasProductos_PK PRIMARY KEY (idVentasProductos),
+	CONSTRAINT VentasProductos_FK FOREIGN KEY (idProducto) REFERENCES Productos(codigoBarras),
+	CONSTRAINT VentasProductos_FK_1 FOREIGN KEY (idVenta) REFERENCES Ventas(codigoVenta)
+);
+
+/*Insertar registros*/
+INSERT INTO Clientes VALUES ("1110238", "Juan Pedro", "Perez Lopez");
+INSERT INTO Clientes VALUES ("1110655", "Maria", "Perez Lopez");
+
+/*Mostrar todos los registros*/
+SELECT nombres FROM Clientes;
+SELECT nombres, apellidos FROM Clientes;
+SELECT * FROM Clientes;
+
+/*Modificar Tablas*/
+ALTER TABLE Clientes ADD edad int;
+ALTER TABLE Clientes DROP COLUMN edad;
+
+/*Eliminar tablas*/
+DROP TABLE Productos;
+TRUNCATE TABLE Productos;
+
+/*Insert masivos*/
+insert into Clientes (identificacion, nombres, apellidos) values ('1649129', 'Cissy', 'Ding');
+insert into Clientes (identificacion, nombres, apellidos) values ('1441413', 'Sharona', 'Jacobsson');
+insert into Clientes (identificacion, nombres, apellidos) values ('0824503', 'Elston', 'Rosenthal');
+insert into Clientes (identificacion, nombres, apellidos) values ('6761578', 'Kizzie', 'Marquot');
+insert into Clientes (identificacion, nombres, apellidos) values ('5456476', 'Deonne', 'MacCaughan');
+insert into Clientes (identificacion, nombres, apellidos) values ('0936013', 'Bradly', 'Townrow');
+insert into Clientes (identificacion, nombres, apellidos) values ('5506334', 'Lemmy', 'Pimmocke');
+insert into Clientes (identificacion, nombres, apellidos) values ('6118567', 'Dennet', 'Jirus');
+insert into Clientes (identificacion, nombres, apellidos) values ('4859976', 'Elvin', 'Keaveney');
+insert into Clientes (identificacion, nombres, apellidos) values ('7317164', 'Suzy', 'Ritchie');
+
+/*Select con Alias*/
+SELECT identificacion, nombres AS "Nombre de la persona" FROM Clientes;
+SELECT identificacion, nombres || " " || apellidos AS "Nombre completo" FROM Clientes;
+
+/*Select sin repetidos*/
+SELECT DISTINCT nombres FROM Clientes;
+
+/*Select con where*/
+SELECT * FROM Clientes WHERE identificacion = "1441413";
+SELECT * FROM Clientes WHERE nombres = "Maria";
+
+SELECT codigoBarras, nombre, precio, talla, color, idMarca
+FROM Productos
+WHERE nombre = "Falda";
+
+/*Select con LIKE*/
+SELECT * FROM Clientes WHERE nombres LIKE "%Maria%";
+SELECT * FROM Clientes WHERE nombres LIKE "%Maria josé%";
+
+/*WHERE AND OR*/
+SELECT * FROM Clientes WHERE nombres LIKE "%Maria%" AND identificacion = "1110655";
+SELECT * FROM Clientes WHERE nombres LIKE "%Maria%" OR identificacion = "1110655";
+
+/*WHERE NOT*/
+SELECT * FROM Clientes WHERE nombres NOT LIKE "%Maria%";
+
+/*ORDER BY*/
+SELECT * FROM Clientes ORDER BY apellidos;
+SELECT * FROM Clientes ORDER BY apellidos DESC;
+SELECT * FROM Clientes ORDER BY apellidos ASC;
+SELECT * FROM Clientes ORDER BY apellidos, nombres;
+
+/*UPPER - LOWER*/
+SELECT * FROM Clientes WHERE LOWER(nombres) = LOWER("Maria josé");
+
+/*COUNT*/
+SELECT COUNT(*) FROM Clientes WHERE nombres LIKE ("%Maria%");
+SELECT COUNT(*) AS "NÚMERO DE MARIAS" FROM Clientes WHERE nombres LIKE ("%Maria%");
+SELECT COUNT(*) AS "NÚMERO DE CLIENTES" FROM Clientes;
+
+/*Máximo y mínimo*/
+SELECT MAX(precio) AS "Precio", nombre, codigoBarras FROM Productos;
+SELECT MIN(precio) AS "Precio", nombre, codigoBarras FROM Productos;
+
+/*Suma*/
+SELECT SUM(total) FROM Ventas;
+SELECT SUM(total) FROM Ventas WHERE idCliente = "49898654";
+
+/*Suma y conteo con Where*/
+SELECT idCliente, COUNT(*) AS "Cantidad ventas", SUM(total) AS "Dinero gastado" FROM Ventas WHERE idCliente = "49898654";
+
+/*JOIN - Unión entre dos tablas*/
+SELECT idCliente, c.nombres || ' ' || c.apellidos AS "Nombre cliente", COUNT(*) AS "Cantidad ventas", SUM(total) AS "Dinero gastado"
+FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion
+WHERE idCliente = "49898654";
+
+SELECT idCliente, c.nombres, c.apellidos, COUNT(*) AS "Cantidad ventas", SUM(total) AS "Dinero gastado" FROM Ventas v JOIN Clientes c ON v.idCliente = c.identificacion 
+WHERE idCliente = "49898654";
+
+/*GROUP BY cuando voy a  agrupar registros repetidosx*/
+SELECT * FROM Productos GROUP BY nombre;
+SELECT nombre, count(nombre) AS cantidad FROM Productos GROUP BY nombre;
+select count(*) from Productos;
+
+
+/*Group by conteo*/
+SELECT talla, count(talla) AS cantidad FROM Productos GROUP BY talla;
+SELECT color, count(color) AS cantidad FROM Productos GROUP BY color;
+
+/*Group by promedio*/
+SELECT AVG(precio) AS "precio promedio" FROM Productos;
+SELECT nombre, AVG(precio) AS cantidad FROM Productos GROUP BY nombre;
+SELECT color, AVG(precio) AS cantidad FROM Productos GROUP BY color;
+SELECT nombre, AVG(precio) FROM Productos GROUP BY nombre HAVING AVG(precio) < 60000; 
+/* Having es la condicion para agrupar sin where -> son consultas esp xa agrupación*/ 
+
+/**CAMISETA DE COLOR BLANCO -> PRODUCTOS CON PRECIO MAYOR**/
+/*Subconsulta*/
+SELECT precio FROM Productos  WHERE nombre = 'Camiseta' AND color = 'Blanco';
+
+
+/* Camiseta de color blanco -> productos de mayor precio
+
+
+/*Consulta y Subconsulta*/
+SELECT nombre, precio
+FROM Productos
+WHERE precio > (
+				SELECT precio FROM Productos
+				WHERE nombre = 'Camiseta' AND color = 'Blanco'
+);
+
+SELECT nombre, precio FROM Productos WHERE precio =
+(SELECT precio FROM Productos WHERE nombre  = 'Camiseta' AND color = 'Blanco');
+
+
+/* Los join son consultas entre tablas -> intersepciones entre las llaves primarias y foraneas*/
+
+/*Subconsulta GRoup by*/
+SELECT nombre, AVG(precio) AS "Precio promedio"
+FROM Productos
+WHERE precio > (
+				SELECT precio FROM Productos
+				WHERE nombre = 'Camiseta' AND color = 'Blanco'
+)
+GROUP BY nombre;
+
+/*Subconsulta*/
+SELECT AVG(precio) FROM Productos;
+/*Promedio del precio por producto por encima por encima del promedio general*/
+SELECT nombre, AVG(precio) AS "Precio promedio"
+FROM Productos
+GROUP BY nombre
+HAVING "Precio promedio" > (
+						SELECT AVG(precio) FROM Productos
+);
+
+/*UPDATE  --> sirven para actualizar los datos, ej: de un producto*/
+UPDATE Productos
+SET precio = 35000
+WHERE codigoBarras = 4535;
+
+/*DELETE*/
+DELETE FROM Clientes
+WHERE identificacion = "101010";
+
+/*Abel
+Wolfe*/
+/**/
+/*JOIN PARA LISTAR PRODUCTOS COMPRADOS POR EL CLIENTE*/
+SELECT c.nombres || " " || c.apellidos AS "Cliente", p.nombre, p.precio
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente
+JOIN VentasProductos vp ON v.codigoVenta = vp.idVenta
+JOIN Productos p ON vp.idProducto = p.codigoBarras
+WHERE c.nombres = "Abel" AND c.apellidos = "Wolfe";
+
+/* join incluyendo nombre de las marcas =) */
+SELECT c.nombres || " " || c.apellidos AS "Cliente", p.precio, p.nombre, m.nombre 
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente 
+JOIN VentasProductos vp ON v.codigoVenta = vp.idVenta 
+JOIN Productos p ON vp.idProducto = p.codigoBarras 
+JOIN Marcas m ON p.idMarca = m.codigoMarca 
+WHERE c.nombres = "Abel" and c.apellidos = "Wolfe";
+
+/*JOIN PARA MOSTRAR EL PRODUCTO MÁS BARATO COMPRADO POR EL CLIENTE*/
+SELECT c.nombres || " " || c.apellidos AS "Cliente", p.nombre, MIN(p.precio) AS "Precio menor"
+FROM Clientes c JOIN Ventas v ON c.identificacion = v.idCliente
+JOIN VentasProductos vp ON v.codigoVenta = vp.idVenta
+JOIN Productos p ON vp.idProducto = p.codigoBarras
+WHERE c.nombres = "Abel" AND c.apellidos = "Wolfe";
+
+/*LEFT JOIN   */
+SELECT c.nombres || " " || c.apellidos AS "Nombre cliente", c.identificacion, v.codigoVenta
+FROM Clientes c LEFT JOIN Ventas v ON v.idCliente = c.identificacion;
+
+/*LEFT JOIN PARA CLIENTES QUE NUNCA HAN COMPRADO ---> Para ver unos campos específicos, para el ejemplo son los campos nulos*/
+SELECT c.nombres || " " || c.apellidos AS "Nombre cliente", c.identificacion
+FROM Clientes c LEFT JOIN Ventas v ON v.idCliente = c.identificacion
+WHERE v.codigoVenta  IS NULL;
+
+/* Transacciones
+	COMMIT  --> SALVARLO
+	DELETE
+	SAVEPOINT A
+	INSERT
+	UPDATE
+	SAVEPOINT B
+	INSERT
+	ROLLBACK --> DEVOLVERSE
+	*/
+

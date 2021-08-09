@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -34,7 +34,7 @@ public class App {
         /* Escritura */
         int[][] numeros = { { 1, 2, 3, 4, 5 }, { 6, 7, 8, 9, 10 }, { 11, 12, 13, 14, 15 }, { 16, 17, 18, 19, 20 },
                 { 21, 22, 23, 24, 25 } };
-        var archivo = "Numeros.txt"; // Dirección relativa
+        var archivo = "Numeros.txt";
         var salida = new PrintWriter(archivo);
 
         for (int i = 0; i < numeros.length; i++) {
@@ -100,12 +100,10 @@ public class App {
         }
         ;
 
-        // NIO 2 // PATHS.GET --> Es para escribir la dirección del archivo o
-        // simplemente se crea la variable con el nombre del archivo
+        // NIO 2
         var miTexto = "Esto es una cadena de prueba";
-        Files.write(Paths.get("writeText.txt"), miTexto.getBytes(StandardCharsets.UTF_8), // get by es para convertirlo
-                                                                                          // en bytes
-                StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        Files.write(Paths.get("writeText.txt"), miTexto.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING);
 
     }
 }

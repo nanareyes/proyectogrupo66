@@ -1,4 +1,4 @@
-package modelo;
+package p66.tiendaropa_66.modelo;
 
 public class Producto {
 

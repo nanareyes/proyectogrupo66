@@ -1,0 +1,9 @@
+{
+  "java.project.sourcePaths": [
+    "Tiendas/src"
+  ],
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "Tiendas/lib/sqlite-jdbc-3.36.0.1.jar"
+  ]
+}

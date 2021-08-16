@@ -1,4 +1,4 @@
-package conexion;
+package p66.tiendaropa_66.conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ public class SqliteConnection {
 
     public SqliteConnection() {
 
-        String archivoDB = "Tiendas/src/base_de_datos/tienda.db"; // Debe contener la ubicación y nombre del archivo .db
+        String archivoDB = "src/base_de_datos/tienda.db"; // Debe contener la ubicación y nombre del archivo .db
         String url = "jdbc:sqlite:" + archivoDB;
         conn = null;
 
